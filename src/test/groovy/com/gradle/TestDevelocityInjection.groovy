@@ -4,16 +4,13 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.util.GradleVersion
 import spock.lang.Requires
 
-import static org.junit.Assume.assumeTrue
-
 class TestDevelocityInjection extends BaseInitScriptTest {
     static final List<TestGradleVersion> CCUD_COMPATIBLE_VERSIONS = ALL_VERSIONS - [GRADLE_3_X]
 
     private static final GradleVersion GRADLE_5 = GradleVersion.version('5.0')
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "does not apply Develocity plugins when not requested"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def result = run([], testGradleVersion.gradleVersion)
 
@@ -25,9 +22,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "does not override Develocity plugin when already defined in project"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         given:
         declareDevelocityPluginApplication(testGradleVersion.gradleVersion)
 
@@ -46,12 +42,11 @@ class TestDevelocityInjection extends BaseInitScriptTest {
     }
 
     @Requires(
-            value = { data.testGradleVersion.gradleVersion >= GradleVersion.version("5.0") },
+            value = { data.testGradleVersion.gradleVersion >= GradleVersion.version("5.0")
+                      && data.testGradleVersion.compatibleWithCurrentJvm },
             reason = "Prior to Gradle 5.0, we apply a fixed version of the plugin, which can't introduce this conflict"
     )
     def "does not override GE or Build Scan plugins even if Develocity plugin is requested"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         given:
         declareLegacyGradleEnterprisePluginApplication(testGradleVersion.gradleVersion)
 
@@ -69,9 +64,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "applies Develocity plugin via init script when not defined in project"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def result = run(testGradleVersion, testConfig())
 
@@ -86,9 +80,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "applies deprecated Gradle Enterprise or Build Scan plugins if requested"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         given:
         def appliedPluginClass = testGradleVersion.gradleVersion >= GradleVersion.version("6.0")
                 ? "com.gradle.enterprise.gradleplugin.GradleEnterprisePlugin"
@@ -108,9 +101,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "applies Develocity and CCUD plugins via init script when not defined in project"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def result = run(testGradleVersion, testConfig().withCCUDPlugin())
 
@@ -125,9 +117,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << CCUD_COMPATIBLE_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "applies CCUD plugin via init script where Develocity plugin already applied"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         given:
         declareDevelocityPluginApplication(testGradleVersion.gradleVersion)
 
@@ -149,9 +140,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << CCUD_COMPATIBLE_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "does not override CCUD plugin when already defined in project"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         given:
         declareDevelocityPluginAndCcudPluginApplication(testGradleVersion.gradleVersion)
 
@@ -169,9 +159,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << CCUD_COMPATIBLE_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "ignores Develocity URL and allowUntrustedServer when Develocity plugin is not applied by the init script"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         given:
         declareDevelocityPluginApplication(testGradleVersion.gradleVersion)
 
@@ -190,9 +179,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "configures Develocity URL and allowUntrustedServer when Develocity plugin is applied by the init script"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def config = testConfig().withServer(mockScansServer.address)
         def result = run(testGradleVersion, config)
@@ -210,9 +198,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "enforces Develocity URL and allowUntrustedServer in project if enforce url parameter is enabled"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         given:
         declareDevelocityPluginApplication(testGradleVersion.gradleVersion, URI.create('https://develocity-server.invalid'))
 
@@ -234,9 +221,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "can configure alternative repository for plugins when Develocity plugin is applied by the init script"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def config = testConfig().withPluginRepository(new URI('https://plugins.grdev.net/m2'))
         def result = run(testGradleVersion, config)
@@ -254,9 +240,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "can configure alternative repository for plugins with credentials when Develocity plugin is applied by the init script"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def config = testConfig().withPluginRepository(new URI('https://plugins.grdev.net/m2')).withPluginRepositoryCredentials("john", "doe")
         def result = run(testGradleVersion, config)
@@ -274,9 +259,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "can configure capturing file fingerprints when Develocity plugin is applied by the init script"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def config = testConfig().withCaptureFileFingerprints()
         def result = run(testGradleVersion, config)
@@ -296,9 +280,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "stops gracefully when requested CCUD plugin version is <1.7"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def config = testConfig().withCCUDPlugin("1.6.6")
         def result = run(testGradleVersion, config)
@@ -312,9 +295,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << ALL_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "can configure Develocity via CCUD system property overrides when CCUD plugin is inject via init script"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def config = testConfig().withCCUDPlugin().withServer(URI.create('https://develocity-server.invalid'))
         def result = run(testGradleVersion, config, ["help", "-Ddevelocity.url=${mockScansServer.address}".toString()])
@@ -330,9 +312,8 @@ class TestDevelocityInjection extends BaseInitScriptTest {
         testGradleVersion << CCUD_COMPATIBLE_VERSIONS
     }
 
+    @Requires({data.testGradleVersion.compatibleWithCurrentJvm})
     def "init script is configuration cache compatible"() {
-        assumeTrue testGradleVersion.compatibleWithCurrentJvm
-
         when:
         def config = testConfig().withCCUDPlugin()
         def result = run(testGradleVersion, config, ["help", "--configuration-cache"])

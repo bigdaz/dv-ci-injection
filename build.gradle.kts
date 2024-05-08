@@ -20,7 +20,6 @@ testing {
 
             dependencies {
                 implementation(gradleTestKit())
-                implementation("org.spockframework:spock-junit4:2.3-groovy-3.0")
                 implementation("io.ratpack:ratpack-groovy-test:1.9.0") {
                     exclude(group = "org.codehaus.groovy", module = "groovy-all")
                 }
