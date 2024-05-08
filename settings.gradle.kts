@@ -7,4 +7,4 @@ develocity {
     server = "https://ge.solutions-team.gradle.com"
 }
 
-rootProject.name = "develocity-ci-injection"
+rootProject.name = "develocity-auto-injection"

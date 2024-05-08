@@ -50,7 +50,7 @@ abstract class BaseInitScriptTest extends Specification {
     File settingsFile
     File buildFile
 
-    def initScript = 'src/main/resources/dv-ci-injection.init.gradle'
+    def initScript = 'src/main/resources/develocity-auto-injection.init.gradle'
 
     boolean allowDevelocityDeprecationWarning = false
 
