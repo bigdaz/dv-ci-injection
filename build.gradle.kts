@@ -29,10 +29,10 @@ testing {
     }
 }
 
-tasks.register<Copy>("publish") {
+tasks.register<Copy>("promote") {
     val version: String = project.property("version") as String
     inputs.property("version", version)
-    
+
     from("src/main/resources/develocity-auto-injection.init.gradle") {
         filter { line: String ->
             line.replace("<<version>>", version, false)
