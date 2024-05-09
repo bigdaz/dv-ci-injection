@@ -50,7 +50,7 @@ jobs:
       - run: |
           ls -la .
           ls -la actions
-          cp reference/develocity-auto-injection.init.gradle actions
+          cp reference/develocity-auto-injection.init.gradle actions/renamed-script.init.gradle
           ls -la actions
 
       # - name: Copy reference script
