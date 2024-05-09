@@ -48,7 +48,7 @@ jobs:
           path: actions
 
       - name: Copy reference script
-        run: cp reference/develocity-auto-inject.init.gradle actions/sources/src/resources/init-scripts/gradle-actions.init-develocity.init.gradle
+        run: cp reference/develocity-auto-injection.init.gradle actions/sources/src/resources/init-scripts/gradle-actions.init-develocity.init.gradle
 
       # If there are no changes, this action will not create a pull request
       - name: Create or update pull request
