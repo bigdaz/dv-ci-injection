@@ -47,6 +47,7 @@ jobs:
         with:
           repository: 'gradle/actions'
           path: actions
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Copy reference script
         run: cp reference/develocity-auto-injection.init.gradle actions/sources/src/resources/init-scripts/gradle-actions.init-develocity.init.gradle
