@@ -60,3 +60,4 @@ jobs:
           commit-message: Update develocity-auto-inject init script
           title: Update develocity-auto-inject init script
           path: actions
+          token: ${{ secrets.GH_TOKEN }}
