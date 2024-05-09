@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  update-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,3 +34,21 @@ jobs:
         with:
           commit_message: '[bot] Promote reference script'
           tagging_message: '${{ inputs.version }}'
+  
+  gradle-actions-promotion:
+    needs: update-version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: 'gradle/actions'
+          path: actions
+
+      - name: Copy reference script
+        run: cp reference/develocity-auto-inject.init.gradle actions/sources/src/resources/init-scripts/gradle-actions.init-develocity.init.gradle
+
+      - name: Git diff
+        run: git diff
+        working-directory: actions
