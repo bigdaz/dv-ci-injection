@@ -46,8 +46,15 @@ jobs:
           repository: 'gradle/actions'
           path: actions
 
-      - name: Copy reference script
-        run: cp reference/develocity-auto-inject.init.gradle actions/sources/src/resources/init-scripts/gradle-actions.init-develocity.init.gradle
+
+      - run: |
+          ls -la .
+          ls -la actions
+          cp reference/develocity-auto-inject.init.gradle actions
+          ls -la actions
+
+      # - name: Copy reference script
+      #   run: cp reference/develocity-auto-inject.init.gradle actions/sources/src/resources/init-scripts/gradle-actions.init-develocity.init.gradle
 
       - name: Git diff
         run: git diff
